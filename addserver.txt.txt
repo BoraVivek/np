@@ -1,0 +1,62 @@
+#include<stdio.h>
+#include<string.h>
+#include<sys/socket.h>
+#include<arpa/inet.h>
+#include<unistd.h>   
+#include<stdlib.h>
+ 
+int main(int argc , char *argv[])
+{
+    int socket_desc , client_sock , c ;
+    struct sockaddr_in server , client;
+    char buffer1[2000],buffer2[2000],buffer3[2000];
+     int a,b,d ;
+    
+    socket_desc = socket(AF_INET , SOCK_STREAM , 0);
+    if (socket_desc == -1)
+    {
+        printf("Could not create socket");
+    }
+    puts("Socket created");
+     
+    
+    server.sin_family = AF_INET;
+    server.sin_addr.s_addr = INADDR_ANY;
+    server.sin_port = htons( 8888 );
+     
+    
+if(bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0)
+    {     
+        perror("bind failed. Error");
+        return 1;
+    }
+    puts("bind done");
+     
+    
+    listen(socket_desc , 3);
+     
+    
+client_sock=accept(socket_desc,(struct sockaddr *)&client,                                                           (socklen_t*)&client);
+    if (client_sock < 0)
+    {
+        perror("accept failed");
+        return 1;
+    }
+    puts("Connection accepted");
+    if(recv(client_sock , buffer1 , 2000 , 0) < 0 )
+    {
+        printf("not recv");
+    }
+    a=atoi(buffer1);
+    if(recv(client_sock , buffer2 , 2000 , 0) < 0 )
+    {
+        printf("not recv");
+    } 
+    b=atoi(buffer2);
+    d =a + b;
+    sprintf(buffer3,"%d",d,2000);
+    write(client_sock , buffer3 , strlen(buffer3));
+    close(client_sock);
+    close(socket_desc);
+    return 0;
+}

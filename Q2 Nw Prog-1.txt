@@ -1,0 +1,228 @@
+Q1. create a user in the guest group in Linux. Add another user in another group. Assume both want to write on a same file "abc.txt". Create an optional file permission for the file.
+
+Ans-
+i)create a user in the guest group in Linux
+
+useradd -g guest username
+
+Note-Here guest is the group name & give any username.
+
+ii) Add another user in another group.
+
+useradd -g group2  username
+
+Note- Here group2 is the name of another group.
+
+iii)Assume both want to write on a same file "abc.txt". Create an optional file permission for the file.
+
+chmod a+r abc.txt
+
+Note-This will give everyone read permission for the file.
+
+
+
+For more details on all these visit the given link:-
+
+http://superuser.com/questions/624745/ubuntu-server-create-group-create-user-user-specific-access
+
+
+
+
+
+Q2. Configure a network wireless connection in linux. Check netstat & Tcptrack commands & write the results
+
+Ans-
+
+Connect to a wireless network:-
+
+In order to be able to establish this connection, are the following:
+
+ifconfig: Enable your wireless device.
+iwlist: List the available wireless access points.
+iwconfig: Configure your wireless connection.
+dhclient: Get your IP Address via dhcp.
+wpa_supplicant: For use with WPA authentication.
+
+For more details visit the given link:-
+
+https://www.linux.com/learn/tutorials/374514-control-wireless-on-the-linux-desktop-with-these-tools
+
+
+Netstat
+
+Netstat is a command line utility that can be used to list out all the network (socket) connections on a system. It lists out all the tcp, udp socket connections and the unix socket connections.
+
+eg:
+netstat -a :- to list all the current connections
+
+netstat -at :- to list all the current tcp connections
+
+netstat -au :- to list all the current udp connections
+
+
+Tcptrack -It is used to Monitor TCP connections on the network.Tcptrack displays the status of TCP connections that it sees on a given network interface.
+
+Tcptrack requires only one parameter to run: the -i flag followed by an interface name that you want tcptrack to monitor. This is the most basic way to run tcptrack:
+
+# tcptrack -i eth()
+
+
+
+Q3. Write a command to enable authentication for single user mode in linux
+
+Ans-
+To accomplish the same behavior under Ubuntu, edit the /etc/inittab file and change the line.
+Step 1 : Edit /etc/inittab file
+[root@afzalkhan ~]# vi /etc/inittab
+ 
+Step 2 : Add following entry at end of the file
+sum:S:wait:/sbin/sulogin
+Step 3 : Save & Exit this file.
+Try booting your machine in level 1 to check this security feature.
+
+For more details visit:
+https://afzalkhanlinuxtalk.wordpress.com/2013/08/07/enable-user-authentication-for-single-user-mode/
+
+
+Q4. Write a command to disable hotkey startup at boot in linux
+Ans-
+01. Login as root
+
+02. Edit this system file
+[root@daddylinux~]# nano /etc/sysconfig/init
+
+03. Go to end of the file 
+You will see PROMPT=yes change it to PROMPT=no
+
+04. Save this file
+Ctrl + O
+
+05. Exit the file 
+Ctrl + X
+
+Visit the given link:
+http://daddy-linux.blogspot.in/2012/02/how-to-disable-interactive-startup-in.html
+
+
+
+Q5. In Linux, configure an FTP server & an FTP client(in another machine).Test a file transfer between client & server.
+
+
+TO CONFIGURE FTP SERVER:-
+
+Step 1 » Vsftpd is a lightweight FTP server package for Centos (linux) . Start installing package by issuing below command.
+
+yum -y install vsftpd
+
+Step 2 »After installation, Open the file /etc/vsftpd/vsftpd.conf which is the config file for vsftpd.
+Replace YES to NO in the below line.
+
+anonymous_enable=NO
+
+Find and Uncomment the below lines
+
+local_enable=YES
+
+write_enable=YES
+
+and uncomment this line to limit the users to their home directories.
+chroot_local_user=YES
+
+Step 3 » Create a folder where you want to store FTP data. In my case i’m going to create in / ( root folder ) .
+
+mkdir /ftp
+
+Step 4 » Now start creating users for accessing ftp server.
+useradd -d /ftp/krizna krizna
+passwd krizna
+
+Step 5 » Start vsftpd service by issuing the below command.
+service vsftpd start
+
+and type this below command to start ftp server service automatically while booting.
+
+Step 6 » That’s it, Now we can check the FTP access .
+
+
+
+TO CONFIGURE FTP CLIENT:-
+
+1. Start installing package by issuing below command.
+
+yum -y install vsftpd
+
+
+2. To connect to ftp server
+
+ftp ftp.abc.com
+
+Q6. Configure & test Telnet in Linux ?
+
+Ans-
+Telnet is a network protocol which is used to connect to remote computers over TCP/IP network. Once you establish a connection to the remote computer, it becomes a virtual terminal and will allow you to communicate with the remote host from your local system.
+
+Installation:
+1. Open your terminal and type the following command to install telnet:
+
+yum install telnet telnet-server -y
+
+2. Now, the telnet has been installed in your server. Next, edit the telnet configuration file /etc/xinetd.d/telnet;
+
+vi /etc/xinetd.d/telnet
+
+Set disable = no:
+
+3. Save and quit the file
+
+4. Now restart the telnet service using the following command:
+
+service xinetd start
+
+
+Q7. Configure & test the inbuilt firewall in linux.
+
+Ans-
+The firewall is disabled by default. To enable the firewall, run the following command from a terminal:
+
+sudo ufw enable
+
+You can test the firewall you’ve created with the following command:
+
+sudo ufw status
+
+
+Q8. Configure a remote server & transfer a directory to remote server?
+
+Ans-
+
+Creating a server configuration: specifying its name, type, and visibility:
+---------------------------------------------------------------------------
+
+1.	Open the Deployment page by doing one of the following:
+o	Open the Settings / Preferences Dialog by pressing Ctrl+Alt+S or by choosing File | Settings for         Windows and Linux or PhpStorm | Preferences for macOS, and click Deployment under Build, Execution,         Deployment.
+o	Choose Tools | Deployment | Configuration on the main menu.
+2.	In the left-hand pane, that shows a list of all the existing server configurations, click the Add         toolbar button  . The Add Server dialog box opens.
+3.	Specify the server configuration name in the Name text box. From the Type drop-down list, choose the         server configuration type depending on the protocol you are going to use to exchange the data with the         server.
+o	FTP: choose this option to have PhpStorm access the server via the FTP file transfer protocol.
+o	SFTP: choose this option to have PhpStorm access the server via the SFTP file transfer protocol.
+o	FTPS: choose this option to have PhpStorm access the server via the FTP file transfer protocol over SSL         (the FTPS extension).
+        When editing the server configuration name in the Name text box, use the Up and Down keys on your         keyboard to change the preselected server access to type in the Type drop-down list.
+4.	Use the Visible only for this project check box to configure the visibility of the server access         configuration (deployment configuration).
+o	Select the check box to restrict the use of the configuration to the current project. Such         configurations cannot be reused outside the current project, they do not appear in the list of         available configurations in other projects. For example, if this check box is selected in an SFTP         configuration, you cannot use your SSH credentials from it when you configure a remote interpreter.
+o	When the check box is cleared, the configuration is visible in all PhpStorm projects and the settings         from, including SSH credentials, can be reused.
+
+5.	Click OK. The Add Server dialog box closes and you return to the Connection tab of the Deployment               dialog box.Click the Use as Default toolbar button   to have PhpStorm silently apply the current         configuration in the following cases:
+o	Automatic upload of changed files.
+o	Manual upload of files without choosing the target host.
+o	Comparing local files and folders with their remote versions.
+
+
+Mapping/Transfer local folders to folders on the server
+-------------------------------------------------------
+Configure mappings, that is, set correspondence between the project folders, the folders on the server to copy 
+project files to, and the URL addresses to access the copied data on the server. The easiest way is to map the entire project root folder to a folder on the server, whereupon the project folder structure will be repeated on the server, provided that you have selected the Create Empty directories check box in the Options dialog box. "For more details, see Customizing Upload/Download.
+1.	Switch to the Mappings tab.
+2.	In the Local Path text box, specify the full path to the desired folder in the project tree. In the simplest case it is the project root.
+3.	In the Deployment Path text box, specify the folder on the server where PhpStorm will upload the data from the folder specified in the Local Path text box. Type the path to the folder relative to the server configuration root. If the folder with the specified name does not exist yet, PhpStorm will create it, provided that you have selected the Create Empty directories check box in the Options dialog box. For more details, see Customizing Upload/Download.
+4.	In the Web Path text box, type the path to the folder on the server relative to the server configuration root. Actually, type the relative path you typed in the Deployment Path text box.
+
